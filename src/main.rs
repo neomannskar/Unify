@@ -31,13 +31,13 @@ impl Token {
 }
 
 /// Stores parsed input
-pub struct UnifySetup {
+pub struct UnifyAllSetup {
     compiler: String,
     args: Vec<String>,
 }
 
-/// Parses Unify compiler-section
-fn parse_unify_comp_section(tokens: &[Token], index: &mut usize) -> String {
+/// Parses UnifyAll compiler-section
+fn parse_unifyall_comp_section(tokens: &[Token], index: &mut usize) -> String {
     if *index + 2 < tokens.len() {
         if tokens[*index + 1].lexeme == ":" && tokens[*index + 2].kind == TokenKind::StringLiteral {
             *index += 2;
@@ -45,21 +45,21 @@ fn parse_unify_comp_section(tokens: &[Token], index: &mut usize) -> String {
         } else {
             panic!(
                 "[{}]: {}\n",
-                "UNIFY".magenta().bold(),
+                "UnifyAll".magenta().bold(),
                 "Expected ':' followed by a string literal".red().bold()
             );
         }
     } else {
         panic!(
             "[{}]: {}",
-            "UNIFY".magenta().bold(),
+            "UnifyAll".magenta().bold(),
             "Unexpected end of file; expected ':' followed by a string literal".red().bold()
         );
     }
 }
 
-/// Parses Unify arguments-section
-fn parse_unify_args_section(tokens: &[Token], index: &mut usize) -> Vec<String> {
+/// Parses UnifyAll arguments-section
+fn parse_unifyall_args_section(tokens: &[Token], index: &mut usize) -> Vec<String> {
     let mut args = Vec::new();
     if *index + 2 < tokens.len() {
         if tokens[*index + 1].lexeme == ":" && tokens[*index + 2].kind == TokenKind::StringLiteral {
@@ -81,27 +81,27 @@ fn parse_unify_args_section(tokens: &[Token], index: &mut usize) -> Vec<String> 
         } else {
             panic!(
                 "[{}]: {}",
-                "UNIFY".magenta().bold(),
+                "UnifyAll".magenta().bold(),
                 "Expected ':' followed by at least one string literal for ARGS".red().bold()
             );
         }
     } else {
         panic!(
             "[{}]: {}",
-            "UNIFY".magenta().bold(),
+            "UnifyAll".magenta().bold(),
             "Unexpected end of file; expected ':' followed by a string literal".red().bold()
         );
     }
     args
 }
 
-impl UnifySetup {
-    /// Creates a 'UnifySetup' unit
+impl UnifyAllSetup {
+    /// Creates a 'UnifyAllSetup' unit
     pub fn new() -> Self {
         Self { compiler: String::new(), args: Vec::new() }
     }
 
-    /// Parses given input to Unify-context
+    /// Parses given input to UnifyAll-context
     pub fn parse(content: String) -> Self {
         let chars: Vec<char> = content.chars().collect();
         let mut tokens = Vec::new();
@@ -135,7 +135,7 @@ impl UnifySetup {
                         if chars[index] == '\n' {
                             panic!(
                                 "[{}]: {}",
-                                "UNIFY".magenta().bold(),
+                                "UnifyAll".magenta().bold(),
                                 "Unterminated string literal".red().bold()
                             );
                         }
@@ -145,7 +145,7 @@ impl UnifySetup {
                     if index >= chars.len() || chars[index] != '\"' {
                         panic!(
                             "[{}]: {}",
-                            "UNIFY".magenta().bold(),
+                            "UnifyAll".magenta().bold(),
                             "Unterminated string literal".red().bold()
                         );
                     }
@@ -161,20 +161,20 @@ impl UnifySetup {
             index += 1;
         }
 
-        let mut setup = UnifySetup::new();
+        let mut setup = UnifyAllSetup::new();
         let mut token_index = 0;
         while token_index < tokens.len() {
             match tokens[token_index].kind {
                 TokenKind::Comp => {
-                    setup.compiler = parse_unify_comp_section(&tokens, &mut token_index);
+                    setup.compiler = parse_unifyall_comp_section(&tokens, &mut token_index);
                 }
                 TokenKind::Args => {
-                    setup.args = parse_unify_args_section(&tokens, &mut token_index);
+                    setup.args = parse_unifyall_args_section(&tokens, &mut token_index);
                 }
                 _ => {
                     panic!(
                         "[{}]: {} {}\n",
-                        "UNIFY".magenta().bold(),
+                        "UnifyAll".magenta().bold(),
                         "Unexpected token:".red().bold(),
                         format!("{:?}", tokens[token_index]).red().bold()
                     );
@@ -197,11 +197,11 @@ impl UnifySetup {
     }
 }
 
-/// Creates valid Unify file content for the given input
-fn create_unify_file_content(args: &Vec<String>) -> String {
-    let mut file_content = String::from("# Build script\n\nCOMP: ");
+/// Creates valid UnifyAll file content for the given input
+fn create_unify_all_file_content(args: &Vec<String>) -> String {
+    let mut file_content = String::from("# Build script\n\nCOMP: \"");
     file_content.push_str(&args[2]);
-    file_content.push_str("\n\nARGS:\n");
+    file_content.push_str("\"\n\nARGS:\n");
 
     for i in 3..args.len() {
         file_content.push_str("  \"");
@@ -217,26 +217,26 @@ fn main() {
     if args.len() < 2 {
         panic!(
             "[{}]: {}\nUsage: {} <path to .u file>\n{}: Additional arguments must follow the correct order for the compiler.\n",
-            "UNIFY".magenta().bold(),
+            "UnifyAll".magenta().bold(),
             "Missing file path argument".red().bold(),
-            "unify".magenta().bold(),
+            "UnifyAll".magenta().bold(),
             "Note".blue().bold()
         );
     }
 
     if args[1] == "--new" || args[1] == "--n" {
-        let mut unify_file = fs::File::create("build.u").unwrap();
-        let content = create_unify_file_content(&args);
-        unify_file.write_all(content.as_bytes()).unwrap();
-        println!("[{}] {}", "UNIFY".magenta().bold(), "Successfully created 'build.u'\n".green().bold());
+        let mut unify_all_file = fs::File::create("build.u").unwrap();
+        let content = create_unify_all_file_content(&args);
+        unify_all_file.write_all(content.as_bytes()).unwrap();
+        println!("[{}] {}", "UnifyAll".magenta().bold(), "Successfully created 'build.u'\n".green().bold());
     } else {
         let contents = fs::read_to_string(&args[1]).unwrap();
 
-        let us = UnifySetup::parse(contents);
+        let us = UnifyAllSetup::parse(contents);
 
         print!(
             "[{}] {}\nCompiler: {}\nArguments: {}\nCommand-line output: {}",
-            "UNIFY".magenta().bold(),
+            "UnifyAll".magenta().bold(),
             "Config".magenta().bold(),
             us.compiler().yellow().bold(),
             us.args().len().to_string().green().bold(),
@@ -254,16 +254,16 @@ fn main() {
             .output()
             .expect(&format!(
                 "[{}]: {}",
-                "UNIFY".magenta().bold(),
+                "UnifyAll".magenta().bold(),
                 "Failed to execute command".red().bold()
             ));
 
         if output.status.success() {
-            println!("[{}] {}\n", "UNIFY".magenta().bold(), "Finished building".green().bold());
+            println!("[{}] {}\n", "UnifyAll".magenta().bold(), "Finished building".green().bold());
         } else {
             eprintln!(
                 "[{}]: {}\n{}",
-                "UNIFY".magenta().bold(),
+                "UnifyAll".magenta().bold(),
                 "Building failed".red().bold(),
                 String::from_utf8_lossy(&output.stderr)
             );

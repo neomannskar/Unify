@@ -1,7 +1,8 @@
 # Build script
 
-COMP: g++
+COMP: "g++"
 
 ARGS:
-  "-Wall",
-  "-Wextra",
+  "-o",
+  "main",
+  "main.cpp",
