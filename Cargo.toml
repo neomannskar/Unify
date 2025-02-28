@@ -1,6 +1,6 @@
 [package]
 name = "UnifyAll"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Neo Mannskär <neo.mannskar@gmail.com>"]
 edition = "2021"
 license = "MIT"
