@@ -1,8 +1,0 @@
-# Build script
-
-COMPILER: "g++"
-
-ARGUMENTS:
-  "-o",
-  "main",
-  "main.cpp",
