@@ -7,5 +7,3 @@
 /target
 Cargo.lock
 *.rs.bk
-
-test/
