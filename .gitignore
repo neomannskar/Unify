@@ -1,0 +1,9 @@
+# VS Code
+.vscode/
+
+# CLion/Jetbrains
+.idea/
+
+/target
+Cargo.lock
+*.rs.bk

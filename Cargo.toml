@@ -1,0 +1,13 @@
+[package]
+name = "Unify"
+version = "0.1.0"
+authors = ["Neo Mannskär <neo.mannskar@gmail.com>"]
+edition = "2021"
+license = "MIT"
+description = "Unify is a simple build script CLI-tool meant to simplify the compilation of large codebases"
+repository = "https://github.com/yourusername/Unify"
+homepage = "https://mannskar.com/software/unify"
+documentation = "https://docs.rs/unify"
+
+[dependencies]
+colored = "3.0.0"

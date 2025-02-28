@@ -1,0 +1,7 @@
+# Build script
+
+COMP: g++
+
+ARGS:
+  "-Wall",
+  "-Wextra",
