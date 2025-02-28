@@ -1,6 +1,7 @@
 use std::{env, fs, io::Write, process::Command};
 use colored::Colorize;
 
+/// Used for parsing
 #[derive(Debug, PartialEq)]
 pub enum TokenKind {
     Word,
@@ -10,6 +11,7 @@ pub enum TokenKind {
     StringLiteral,
 }
 
+/// Used for parsing
 #[derive(Debug)]
 pub struct Token {
     pub kind: TokenKind,
@@ -28,11 +30,13 @@ impl Token {
     }
 }
 
+/// Stores parsed input
 pub struct UnifySetup {
     compiler: String,
     args: Vec<String>,
 }
 
+/// Parses Unify compiler-section
 fn parse_unify_comp_section(tokens: &[Token], index: &mut usize) -> String {
     if *index + 2 < tokens.len() {
         if tokens[*index + 1].lexeme == ":" && tokens[*index + 2].kind == TokenKind::StringLiteral {
@@ -54,6 +58,7 @@ fn parse_unify_comp_section(tokens: &[Token], index: &mut usize) -> String {
     }
 }
 
+/// Parses Unify arguments-section
 fn parse_unify_args_section(tokens: &[Token], index: &mut usize) -> Vec<String> {
     let mut args = Vec::new();
     if *index + 2 < tokens.len() {
@@ -91,10 +96,12 @@ fn parse_unify_args_section(tokens: &[Token], index: &mut usize) -> Vec<String> 
 }
 
 impl UnifySetup {
+    /// Creates a 'UnifySetup' unit
     pub fn new() -> Self {
         Self { compiler: String::new(), args: Vec::new() }
     }
 
+    /// Parses given input to Unify-context
     pub fn parse(content: String) -> Self {
         let chars: Vec<char> = content.chars().collect();
         let mut tokens = Vec::new();
@@ -179,15 +186,18 @@ impl UnifySetup {
         setup
     }
 
+    /// Returns the setup's compiler
     pub fn compiler(&self) -> &String {
         &self.compiler
     }
 
+    /// Returns the setup's arguments
     pub fn args(&self) -> &Vec<String> {
         &self.args
     }
 }
 
+/// Creates valid Unify file content for the given input
 fn create_unify_file_content(args: &Vec<String>) -> String {
     let mut file_content = String::from("# Build script\n\nCOMP: ");
     file_content.push_str(&args[2]);

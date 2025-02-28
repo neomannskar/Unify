@@ -1,13 +1,16 @@
 [package]
-name = "Unify"
+name = "UnifyAll"
 version = "0.1.0"
 authors = ["Neo Mannskär <neo.mannskar@gmail.com>"]
 edition = "2021"
 license = "MIT"
 description = "Unify is a simple build script CLI-tool meant to simplify the compilation of large codebases"
-repository = "https://github.com/yourusername/Unify"
-homepage = "https://mannskar.com/software/unify"
-documentation = "https://docs.rs/unify"
+repository = "https://github.com/yourusername/UnifyAll"
+homepage = "https://mannskar.com/software/UnifyAll"
+documentation = "https://docs.rs/UnifyAll"
+keywords = ["cli", "build", "automation"]
+categories = ["command-line-utilities", "development-tools"]
+readme = "README.md"
 
 [dependencies]
 colored = "3.0.0"
