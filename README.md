@@ -13,3 +13,13 @@ ARGS:
   "main",
   "main.cpp",
 ```
+### Build
+
+```u
+UnifyAll 'build.u'
+```
+### Create a new 'build.u' file
+
+```u
+UnifyAll --new <compiler> <arg#1> <arg#2> ...
+```
