@@ -16,7 +16,7 @@ ARGS:
 ### Build
 
 ```u
-UnifyAll 'build.u'
+UnifyAll <path to build.u file>
 ```
 ### Create a new 'build.u' file
 
